@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}
+All Categories · {{ super() }}
+{% endblock title %}
+
+{% block head_description %}
+All categories of the {{ SITENAME|striptags }} blog. 
+{% endblock head_description %}
+
+{% block feed_links %}
+{{ super() }}
+{% endblock feed_links %}
+
+{% block content %}
+<section class="wrap">
+    <div class="container">
+        <div class="row">
+            <header class="col-lg-12 page-header">
+                <h1><a href="{{ SITEURL }}/categories.html">All Categories</a></h1>
+            </header>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-group" id="accordion">
+                    {% for category, articles in categories %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle list-of-categories" data-toggle="collapse" data-parent="#accordion" href="#{{ category.slug }}-ref">
+                                    {% set num = articles|count %}
+                                    {{ category }}<span>{{ num }}</span>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="{{ category.slug }}-ref" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="list-articles-category">
+                                    {% for article in articles %} 
+                                    <li><time pubdate="pubdate" datetime="{{ article.date.isoformat() }}">{{ article.locale_date }}</time><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }} {%if article.subtitle %} <small> {{ article.subtitle }} </small> {% endif %} </a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+{% block script %}
+{{ super() }}
+<script  language="javascript" type="text/javascript">
+    function uncollapse() {
+            $(window.location.hash).collapse({
+                toggle: true
+            })
+    }
+</script>
+
+<script type="text/javascript" language="JavaScript">
+    uncollapse(); 
+</script>
+{% endblock script %}

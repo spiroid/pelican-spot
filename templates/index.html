@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ super() }}
+{% endblock title %}
+
+{% block meta_tags_in_head %}
+{{ super() }}
+<meta property="og:title" content="{{ SITENAME|striptags }}"/>
+<meta name="twitter:title" content="{{ SITENAME|striptags }}">
+<meta property="og:type" content="article" />
+<meta property="og:url" content="{{ SITEURL }}" />
+<meta property="og:site_name" content="{{ SITENAME|striptags }}" />
+<meta property="og:article:author" content="{{ AUTHOR }}" />
+<meta name="twitter:card" content="summary">
+{% endblock meta_tags_in_head %}
+
+{% block headerwrap %}
+<div id="headerwrap">
+    <div class="container">
+        <div class="row centered">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h1>It Doesn't Take a Rocket <b>Scientist</b></h1>
+                <h2>It Takes a Designer</h2>
+            </div>
+        </div><!-- row -->
+    </div><!-- container -->
+</div><!-- headerwrap -->
+{% endblock headerwrap %}
+
+{% block content %}
+<section id="heart" class="wrap">
+    <div class="container">
+        <div class="row centered">
+            <div class="col-lg-4">
+                <i class="fa fa-heart"></i>
+                <h4>DESIGN</h4>
+                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even believable.</p>
+            </div><!-- col-lg-4 -->
+
+            <div class="col-lg-4">
+                <i class="fa fa-laptop"></i>
+                <h4>BOOTSTRAP</h4>
+                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even believable.</p>
+            </div><!-- col-lg-4 -->
+
+            <div class="col-lg-4">
+                <i class="fa fa-trophy"></i>
+                <h4>SUPPORT</h4>
+                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even believable.</p>
+            </div><!-- col-lg-4 -->
+        </div><!-- row -->
+    </div><!-- container -->
+</section>
+
+
+<!-- PORTFOLIO SECTION -->
+<section id="portfolio" class="wrap dg">
+    <div class="container">
+        <div class="row centered">
+            <div class="col-lg-4 col-lg-offset-4">
+                <h3>Latest works</h3>
+            </div>
+        </div><!-- row -->
+        <div class="row centered">
+            <div class="col-lg-4">
+                <div class="tilt">
+                <a href="#"><img src="theme/img/p01.png" alt=""></a>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="tilt">
+                <a href="#"><img src="theme/img/p03.png" alt=""></a>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="tilt">
+                <a href="#"><img src="theme/img/p02.png" alt=""></a>
+                </div>
+            </div>
+        </div><!-- row -->
+    </div><!-- container -->
+</section><!-- PORTFOLIO -->
+
+
+<!-- FEATURE SECTION -->
+<section id="feature" class="wrap">
+    <div class="container">
+        <div class="row centered">
+            <div class="col-lg-4 col-lg-offset-4">
+                <h3>We create first class design</h3>
+            </div>
+        </div><!-- row -->
+        <div class="row centered">
+            <div class="col-lg-8 col-lg-offset-2">
+                <p>By being true to the brand we represent, we elevate the audiences’ relationship to it. Like becomes love becomes a passion. Passion becomes advocacy. And we see the brand blossom from within, creating a whole story the audience embraces. That’s when the brand can truly flex its muscles.</p>
+            </div>
+            <div class="col-lg-10 col-lg-offset-1">
+                <img class="img-responsive" src="theme/img/munter.png" alt="">
+            </div>
+        </div><!-- row -->
+    </div><!-- container -->
+</section><!-- FEATURE -->
+
+
+<!-- CLIENTS -->
+<section id="clients" class="wrap lg">
+    <div class="container">
+        <div class="row centered">
+            <div class="col-lg-4 col-lg-offset-4">
+                <h3>Our awesome clients</h3>
+            </div>
+        </div><!-- row -->
+        <div class="row centered">
+            <div class="col-lg-2 col-lg-offset-1">
+                <img src="theme/img/c01.gif" alt="">
+            </div>
+            <div class="col-lg-2">
+                <img src="theme/img/c02.gif" alt="">
+            </div>
+            <div class="col-lg-2">
+                <img src="theme/img/c03.gif" alt="">
+            </div>
+            <div class="col-lg-2">
+                <img src="theme/img/c04.gif" alt="">
+            </div>
+            <div class="col-lg-2">
+                <img src="theme/img/c05.gif" alt="">
+            </div>
+        </div><!-- row -->
+    </div><!-- container -->
+</section>
+
+
+<!-- recent articles -->
+{% if articles %}
+<section id="recent-posts" class="wrap">
+    <div class="container">
+        <div class="row centered">
+            <div class="col-lg-4 col-lg-offset-4">
+                <h3>Recent posts (<a id="allposts" href="{{ SITEURL }}/archives.html">See all posts</a>)</h3>
+            </div>
+        </div>
+        <div class="row">
+            {% for article in articles %}
+            {% from '_includes/_defaults.html' import RECENT_ARTICLES_COUNT with context %}
+            {% if loop.index0 < RECENT_ARTICLES_COUNT %}
+            <article class="col-lg-4 col-md-4 col-xs-12 recent-post">
+                <header>
+                    <h4><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }} {%if article.subtitle %} <small> {{ article.subtitle }} </small> {% endif %} </a></h4>
+                    <section class="meta">
+                        <i class="glyphicon glyphicon-folder-open"></i>&nbsp;
+                        <a href="{{ SITEURL }}/categories.html#{{ article.category.slug }}-ref">{{ article.category }}</a>
+                    </section>
+                </header>
+                <section class="summary">{{ article.summary }}</section>
+                <hr class="sep">
+                <section class="meta pull-right">
+                    <i class="fa fa-comment-o"></i>&nbsp;|&nbsp;
+                    <i class="fa fa-calendar"></i>
+                    <time pubdate="pubdate" datetime="{{ article.date.isoformat() }}">{{ article.locale_date }}</time>
+                </section>
+            </article>
+            {% endif %}
+            {% endfor %}
+        </div><!-- row -->
+    </div>
+</section>
+{% endif %}
+
+{% endblock content %}

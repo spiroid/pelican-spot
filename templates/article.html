@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ article.title|striptags }} {%if article.subtitle %} - {{ article.subtitle }} {% endif %} · {{ super() }}
+{% endblock title %}
+
+{% block head_description %}
+{% if article.summary %}
+{{ article.summary|striptags }}
+{% endif %}
+{% endblock head_description %}
+
+{% block meta_tags_in_head %}
+{{ super() }}
+{% if article.tags or article.category or article.keywords %}
+<meta name="keywords" content="{{ [article.tags|join(', '), article.category, article.keywords]|join(', ') }}" />
+{% endif %}
+{% endblock meta_tags_in_head %}
+
+{% block content %}
+<section class="wrap">
+    <article class="container post">
+        <div class="row">
+            <header class="post-header col-lg-12">
+                <h1><a href="{{ SITEURL }}/{{ article.url }}"> {{ article.title }} {%if article.subtitle %} <small> {{ article.subtitle }} </small> {% endif %} </a></h1>
+                <ul class="post-meta">
+                    {% if article.author %}
+                    <li>By {{ article.author}}</li>
+                    {% endif %}
+                    {% if article.date %}
+                    <li>
+                        {% set day = article.date.strftime('%d')|int %}
+                        <time pubdate="pubdate" datetime="{{ article.date.isoformat() }}">{{ article.date.strftime('%b') }} {{ day }} {{- article.date.strftime(', %Y') }}</time>
+                    </li>
+                    {% endif %}
+                    {% if article.category|trim|count > 0 %}
+                    <li>
+                        <a class="category-link" href="{{ SITEURL }}/categories.html#{{ category.slug }}-ref">{{ article.category }}</a>
+                    </li>
+                    {% endif %}
+                    {% if article.tags and article.tags[0]|trim|count > 0 %}
+                    <li>
+                    <ul class="list-of-tags tags-in-article">
+                        {% for tag in article.tags|sort %}
+                        <li><a href="{{ SITEURL }}/tags.html#{{ tag.slug }}-ref">{{ tag }}
+                            {% for aTag, tagged_articles in tags if aTag == tag %}
+                            <span>{{ tagged_articles|count }}</span>
+                            {% endfor %}</a></li>
+                        {% endfor %}
+                    </ul>
+                    </li>
+                    {% endif %}
+                </ul>
+            </header>
+        </div>
+
+        <div class="row">
+            {% if article.toc %}
+            <div class="col-lg-2 table-of-content">
+                <nav>
+                    <h4>Contents</h4>
+                    {{ article.toc }}
+                </nav>
+            </div>
+            <div class="col-lg-10 article-content">
+            {% else %}
+            <div class="col-lg-12 article-content">
+            {% endif %}
+                {{ article.content }}
+            </div>
+        </div>
+    </article>
+</section>
+{% endblock content %}
+
+{% block script %}
+    {{ super() }}
+{% endblock script %}
